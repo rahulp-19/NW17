@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #070707;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+.admin-header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px;
+
+    background: #111;
+
+    border-bottom: 1px solid #252525;
+}
+
+.admin-header h1 {
+    font-size: 1.5rem;
+    color: #ff9a33;
+}
+
+.admin-header button {
+
+    background: #ff9a33;
+    color: #111;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+}
+
+.admin-container {
+
+    width: 95%;
+
+    max-width: 1400px;
+
+    margin: 30px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        400px 1fr;
+
+    gap: 30px;
+}
+
+.upload-section {
+
+    background: #181818;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    border: 1px solid #222;
+}
+
+.upload-section h2 {
+    margin-bottom: 20px;
+}
+
+#uploadForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+#uploadForm input,
+#uploadForm textarea {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: 1px solid #333;
+
+    background: #121212;
+
+    color: white;
+}
+
+#uploadForm textarea {
+
+    min-height: 120px;
+
+    resize: vertical;
+}
+
+#uploadForm button {
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #ff9a33;
+
+    color: #111;
+
+    font-weight: 700;
+}
+
+#uploadStatus {
+
+    margin-top: 15px;
+
+    color: #ffb16c;
+}
+
+.videos-section {
+
+    background: #121212;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    border: 1px solid #252525;
+}
+
+.videos-section h2 {
+    margin-bottom: 20px;
+}
+
+#videoList {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(280px, 1fr));
+
+    gap: 20px;
+}
+
+.video-item {
+
+    background: #111;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    border: 1px solid #252525;
+}
+
+.video-item img {
+
+    width: 100%;
+
+    height: 180px;
+
+    object-fit: cover;
+}
+
+.video-item-content {
+
+    padding: 15px;
+}
+
+.video-item h3 {
+
+    margin-bottom: 8px;
+}
+
+.video-item p {
+
+    color: #ccc;
+
+    font-size: .9rem;
+
+    margin-bottom: 15px;
+}
+
+.delete-btn {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #ff9a33;
+
+    color: #111;
+
+    font-weight: 600;
+}
+
+@media(max-width:1000px) {
+
+    .admin-container {
+
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:768px) {
+
+    .admin-header {
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .upload-section,
+    .videos-section {
+
+        padding: 20px;
+    }
+}

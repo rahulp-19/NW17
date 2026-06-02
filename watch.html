@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Watch Video</title>
+
+    <link rel="stylesheet" href="css/player.css">
+
+</head>
+
+<body>
+
+    <div class="player-container">
+
+        <div class="video-wrapper">
+
+            <video id="videoPlayer" controls playsinline>
+
+            </video>
+
+        </div>
+
+        <div class="video-details">
+
+            <h1 id="videoTitle">
+
+                Loading...
+
+            </h1>
+
+            <p id="videoDescription">
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div id="subscriptionModal" class="modal">
+
+        <div class="modal-content">
+
+            <h2>
+
+                Subscribe To Continue
+
+            </h2>
+
+            <p>
+
+                Your preview has ended.
+
+                Subscribe to unlock the full video.
+
+            </p>
+
+            <button id="subscribeBtn">
+
+                Subscribe
+
+            </button>
+
+            <button id="closeModal">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script type="module">
+
+       import { supabase }
+            from './js/supabase.js'
+
+        import { hasActiveSubscription }
+            from './js/subscription-check.js'
+
+        import {
+            saveProgress,
+            getProgress
+        }
+            from './js/watch-history.js'
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            )
+
+        const videoId =
+            params.get('id')
+
+        const storageFile =
+            params.get('file')
+
+        const player =
+            document.getElementById(
+                'videoPlayer'
+            )
+
+        const title =
+            document.getElementById(
+                'videoTitle'
+            )
+
+        const description =
+            document.getElementById(
+                'videoDescription'
+            )
+
+        const modal =
+            document.getElementById(
+                'subscriptionModal'
+            )
+
+        async function loadVideo() {
+            if (videoId) {
+                const {
+                    data,
+                    error
+                } = await supabase
+                    .from('videos')
+                    .select('*')
+                    .eq('id', videoId)
+                    .single()
+
+                console.log('DATA:', data)
+                console.log('ERROR:', error)
+
+                if (error || !data) {
+                    console.error(error)
+                    if (storageFile) {
+                        return loadStorageVideo(storageFile)
+                    }
+                    return
+                }
+
+                title.innerText =
+                    data.title
+
+                description.innerText =
+                    data.description || ''
+
+                player.src =
+                    await resolveVideoSrc(data.video_url)
+
+                const lastPosition =
+                    await getProgress(videoId)
+
+                await setupPlayback(lastPosition, data.preview_start, data.preview_end)
+                return
+            }
+
+            if (storageFile) {
+                return loadStorageVideo(storageFile)
+            }
+
+            console.error('No video id or storage file provided.')
+        }
+
+        async function loadStorageVideo(fileName) {
+            title.innerText =
+                fileName.replace(/\.[^/.]+$/, '')
+
+            description.innerText =
+                'Video loaded from storage fallback.'
+
+            const {
+                data: signedData,
+                error: signedError
+            } = await supabase
+                .storage
+                .from('videos')
+                .createSignedUrl(fileName, 60 * 60)
+
+            if (signedError || !signedData?.signedUrl) {
+                console.error(signedError)
+                return
+            }
+
+            player.src =
+                signedData.signedUrl
+
+            const lastPosition =
+                await getProgress(fileName)
+
+            await setupPlayback(lastPosition, 0, 30)
+        }
+
+        async function resolveVideoSrc(url) {
+            if (!url) return null
+
+            try {
+                const parsed = new URL(url)
+                const marker = '/videos/'
+                const markerIndex = parsed.pathname.indexOf(marker)
+
+                if (markerIndex !== -1) {
+                    const path = parsed.pathname.slice(markerIndex + marker.length)
+                    const {
+                        data: signedData,
+                        error: signedError
+                    } = await supabase
+                        .storage
+                        .from('videos')
+                        .createSignedUrl(path, 60 * 60)
+
+                    if (!signedError && signedData?.signedUrl) {
+                        return signedData.signedUrl
+                    }
+                }
+            } catch (err) {
+                console.warn('Could not parse video URL for signed fallback', err)
+            }
+
+            return url
+        }
+
+        async function setupPlayback(lastPosition, previewStart, previewEnd = 30) {
+            player.addEventListener(
+                'loadedmetadata',
+                () => {
+                    if(lastPosition > 0){
+                        player.currentTime =
+                        lastPosition
+                    }else{
+                        player.currentTime =
+                        previewStart || 0
+                    }
+                })
+
+            const subscribed =
+                await hasActiveSubscription()
+
+            if (!subscribed) {
+                player.addEventListener(
+                    'timeupdate',
+                    () => {
+                        if (
+                            player.currentTime >= previewEnd
+                        ) {
+                            player.pause()
+                            modal.classList.add(
+                                'show'
+                            )
+                        }
+                    })
+            }
+        }
+
+        document
+            .getElementById(
+                'closeModal'
+            )
+            .onclick = () => {
+
+                modal.classList.remove(
+                    'show'
+                )
+
+            }
+
+        document
+            .getElementById(
+                'subscribeBtn'
+            )
+            .onclick = () => {
+
+                window.location.href =
+                    'plans.html'
+
+            }
+
+        setInterval(()=>{
+
+            if(
+                !player.paused
+            ){
+
+                saveProgress(
+                    videoId || storageFile,
+                    player.currentTime
+                )
+
+            }
+
+        },10000)
+
+        loadVideo()
+
+    </script>
+
+</body>
+
+</html>

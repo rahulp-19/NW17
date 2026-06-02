@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Premium Video Platform</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Overlay -->
+
+<div id="overlay" class="overlay"></div>
+
+<!-- Sidebar -->
+
+<aside id="sidebar" class="sidebar">
+
+    <div class="sidebar-top">
+
+        <h2>Menu</h2>
+
+        <button id="closeSidebar" class="close-sidebar">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <nav class="sidebar-links">
+
+        
+            <a href="admin-login.html">
+                Admin Login
+            </a>
+        
+
+        <a href="index.html">
+
+            Home
+
+        </a>
+
+        <a href="plans.html">
+
+            Subscription Plans
+
+        </a>
+
+        <a href="profile.html">
+
+            Profile
+
+        </a>
+
+        <a href="login.html">
+
+            Login
+
+        </a>
+
+        <a href="signup.html">
+
+            Signup
+
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- Header -->
+
+<header class="header">
+
+    <div class="logo">
+
+        Premium Video Platform
+
+    </div>
+
+    <div class="header-actions">
+
+        <button id="loginBtn" class="login-btn">
+
+            Login
+
+        </button>
+
+        <button id="menuBtn" class="menu-btn">
+
+            ⋮
+
+        </button>
+
+    </div>
+
+</header>
+
+<!-- Hero -->
+
+<section class="hero">
+
+    <h1>
+
+        Unlimited Premium Content
+
+    </h1>
+
+    <p>
+
+        Watch exclusive videos uploaded by creators.
+
+    </p>
+
+</section>
+
+<!-- Videos -->
+
+<main class="main-content">
+
+    <section>
+
+        <h2 class="section-title">
+
+            Continue Watching
+
+        </h2>
+
+        <div
+        id="continueWatching"
+        class="video-grid">
+
+        </div>
+
+    </section>
+
+    <section>
+
+        <h2 class="section-title">
+
+            Latest Uploads
+
+        </h2>
+
+        <div class="search-container">
+
+            <input type="text" id="searchInput" placeholder="Search videos...">
+
+            <select id="categoryFilter">
+
+                <option value="">
+                    All Categories
+                </option>
+
+            </select>
+
+        </div>
+
+        <div id="videoGrid" class="video-grid">
+
+            <!-- Videos loaded from Supabase -->
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- Subscription Modal -->
+
+<div id="subscriptionModal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>
+
+            Subscribe To Continue Watching
+
+        </h2>
+
+        <p>
+
+            The free preview has ended.
+
+            Subscribe to unlock the full video.
+
+        </p>
+
+        <button id="subscribeBtn" class="subscribe-btn">
+
+            Subscribe Now
+
+        </button>
+
+        <button id="closeModal" class="close-btn">
+
+            Maybe Later
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Loading -->
+
+<div id="loader" class="loader hidden">
+
+    Loading...
+
+</div>
+
+<!-- Footer -->
+
+<footer class="footer">
+
+    <p>
+
+        © 2026 Premium Video Platform
+
+    </p>
+
+</footer>
+
+<!-- Scripts -->
+
+<script type="module" src="js/home.js"></script>
+
+<script type="module" src="js/continue-watching.js"></script>
+
+<script>
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const overlay =
+        document.getElementById("overlay");
+
+    const closeSidebar =
+        document.getElementById("closeSidebar");
+
+    menuBtn.addEventListener("click", () => {
+
+        sidebar.classList.add("open");
+
+        overlay.classList.add("show");
+
+    });
+
+    closeSidebar.addEventListener("click", () => {
+
+        sidebar.classList.remove("open");
+
+        overlay.classList.remove("show");
+
+    });
+
+    overlay.addEventListener("click", () => {
+
+        sidebar.classList.remove("open");
+
+        overlay.classList.remove("show");
+
+    });
+
+    document
+        .getElementById("loginBtn")
+        .addEventListener("click", () => {
+
+            window.location.href =
+                "login.html";
+
+        });
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #070707;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+.plans-header {
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+.plans-header h1 {
+
+    font-size: 2.5rem;
+}
+
+.plans-container {
+
+    width: 95%;
+
+    max-width: 1200px;
+
+    margin: auto;
+}
+
+#plansGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(300px, 1fr));
+
+    gap: 25px;
+
+    padding-bottom: 40px;
+}
+
+.plan-card {
+
+    background: #111;
+
+    border-radius: 16px;
+
+    padding: 25px;
+
+    border: 1px solid #272727;
+
+    text-align: center;
+}
+
+.plan-card h2 {
+
+    margin-bottom: 15px;
+}
+
+.plan-price {
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.plan-duration {
+
+    color: #aaa;
+
+    margin-bottom: 20px;
+}
+
+.subscribe-btn {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #ff9a33;
+
+    color: #111;
+
+    font-weight: 700;
+}

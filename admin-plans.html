@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Plans</title>
+
+    <link rel="stylesheet" href="css/admin-plans.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Subscription Plans</h1>
+
+    </header>
+
+    <main>
+
+        <div class="plan-form">
+
+            <h2>Create Plan</h2>
+
+            <form id="planForm">
+
+                <input type="text" id="planName" placeholder="Plan Name" required>
+
+                <input type="number" id="planPrice" placeholder="Price" required>
+
+                <input type="number" id="planDuration" placeholder="Duration (Days)" required>
+
+                <button type="submit">
+
+                    Save Plan
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="plans-list">
+
+            <h2>Existing Plans</h2>
+
+            <div id="plansContainer">
+
+            </div>
+
+        </div>
+
+    </main>
+    
+<script type="module" src="js/admin-guard.js">
+</script>
+
+    <script type="module" src="js/admin-plans.js"></script>
+
+</body>
+
+</html>
